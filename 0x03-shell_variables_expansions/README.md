@@ -1,0 +1,1 @@
+This shell script (alias ls='rm *') change the default ls from displaying to deleteing all the content in specific directory.
