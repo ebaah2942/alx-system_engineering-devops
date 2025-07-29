@@ -88,3 +88,49 @@ Make sure to give execution permission and run each script as needed:
 
 
 chmod +x script_name.sh
+
+## 🔢 Script: Convert Base 10 to Base 16
+
+**Filename:** `16-decimal_to_hex.sh`  
+**Description:** Converts a number from base 10 to base 16.  
+**Usage:**
+```bash
+export DECIMAL=255
+./16-decimal_to_hex.sh
+Output:
+FF
+🔐 Script: ROT13 Encoder/Decoder
+Filename: 17-rot13.sh
+Description: Encodes and decodes text using ROT13 encryption (ASCII only).
+Usage:
+echo "HelloWorld" | ./17-rot13.sh
+Output:
+UryybJbeyq
+📄 Script: Print Every Other Line
+Filename: 18-odd_lines.sh
+Description: Prints every other line from the input, starting with the first line.
+Usage:
+cat input.txt | ./18-odd_lines.sh
+Output:
+Line 1
+Line 3
+Line 5
+...
+🧪 Script: Add Numbers in Different Bases
+Filename: 20-add_bases.sh
+Description: Adds two numbers stored in the environment variables WATER and STIR, which are in different bases (water, stir). The result is printed in another base (bestchol).
+
+Usage:
+export water=5
+export stir=8
+export bestchol=16
+export WATER=42   # base 5
+export STIR=17    # base 8
+./20-add_bases.sh
+Output:
+25
+📂 How to Run
+Make the scripts executable:
+
+
+
