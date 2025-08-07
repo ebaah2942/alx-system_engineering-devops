@@ -1,3 +1,5 @@
+![One server web stack](./DNS3.png)
+
 Explanation of Components
  What is a server?
 A server is a physical or virtual machine that provides services to other computers (clients). In this case, it's a Linux machine with a full web stack.
@@ -52,5 +54,5 @@ If traffic increases (many users at once), this single server cannot handle the 
 
 You cannot horizontally scale (add more servers) with this setup.
 
-(./DNS3.png)
+
 
