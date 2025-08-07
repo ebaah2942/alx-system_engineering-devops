@@ -1,0 +1,102 @@
+# Three Server Web Infrastructure Design
+
+This file documents a 3-server web infrastructure setup that hosts the website **www.foobar.com** using a load balancer, a web server, an application server, and a database.
+
+---
+
+## 🖥️ Components
+
+- **1 Load Balancer (HAProxy)**  
+- **1 Web Server (NGINX)**
+- **1 Application Server (with codebase)**
+- **1 MySQL Database**
+- **1 Domain Name**: `www.foobar.com`
+
+---
+
+## 🗺️ Request Flow
+
+1. A user opens their browser and types `www.foobar.com`.
+2. DNS resolves the domain to the load balancer’s IP.
+3. The **HAProxy Load Balancer** receives the request and distributes it to one of the backend servers.
+4. The **Web Server (NGINX)** serves static content or forwards the request to the **Application Server**.
+5. The **Application Server** processes business logic and interacts with the **MySQL Database**.
+6. The response is returned to the user through the same path.
+
+---
+
+## 📦 Why Each Component Was Added
+
+- **Load Balancer (HAProxy)**:  
+  Distributes incoming traffic across multiple servers to balance load and improve reliability.
+
+- **Web Server (NGINX)**:  
+  Handles static files and proxies requests to the application server. Improves speed and security.
+
+- **Application Server**:  
+  Hosts dynamic application code and handles backend logic.
+
+- **MySQL Database**:  
+  Stores persistent application data, such as users, transactions, etc.
+
+---
+
+## 🔁 Load Balancing Algorithm
+
+- **Round-Robin**:
+  - Requests are distributed equally and sequentially across all available backend servers.
+  - Ensures basic traffic distribution without session tracking or weights.
+
+---
+
+## 🔄 Active-Active vs Active-Passive
+
+- **This setup is Active-Active**:  
+  Both the web and app servers handle traffic simultaneously, maximizing resource usage.
+
+- **Difference**:
+  - **Active-Active**: All servers are used at the same time.
+  - **Active-Passive**: Only one server handles traffic; others remain on standby.
+
+---
+
+## 🛢️ Primary-Replica (Master-Slave) Database Setup
+
+- **Primary Node (Master)**:
+  - Accepts read and write operations.
+- **Replica Node (Slave)**:
+  - Only accepts read operations.
+  - Syncs data from the Primary.
+- **Benefit**:
+  - Offloads read traffic to replicas.
+  - Provides redundancy and scalability.
+
+---
+
+## ⚠️ Infrastructure Issues
+
+1. **Single Points of Failure (SPOF)**:
+   - The Load Balancer and Database are still single points of failure.
+
+2. **Security Issues**:
+   - No firewall to protect against unauthorized access.
+   - No HTTPS to encrypt data in transit.
+
+3. **No Monitoring**:
+   - There's no system to track server health, uptime, or traffic anomalies.
+
+---
+
+## ✅ Future Improvements
+
+- Add a **replica database** to improve availability and read performance.
+- Add **firewall rules** and **SSL certificates (HTTPS)**.
+- Use monitoring tools like **Prometheus**, **Grafana**, or **Datadog**.
+- Deploy backup load balancer and database replica to eliminate SPOF.
+
+---
+
+## 🖼️ Diagram
+
+![Web Infrastructure Diagram](./DNS2.png)
+
