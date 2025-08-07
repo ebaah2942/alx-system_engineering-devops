@@ -1,0 +1,56 @@
+Explanation of Components
+ What is a server?
+A server is a physical or virtual machine that provides services to other computers (clients). In this case, it's a Linux machine with a full web stack.
+
+ What is the role of the domain name?
+A domain name like foobar.com is a human-readable address that maps to the server’s IP address. It allows users to access the website without remembering the server’s IP.
+
+ What type of DNS record is www in www.foobar.com?
+www is a DNS A record (Address record) that maps the subdomain www.foobar.com to the IP address 8.8.8.8.
+
+ What is the role of the web server (Nginx)?
+The web server (Nginx):
+
+Receives incoming HTTP(S) requests
+
+Serves static files (e.g. HTML, images)
+
+Forwards dynamic requests to the application server
+
+Acts as a reverse proxy
+
+ What is the role of the application server?
+The application server (e.g. Gunicorn for Python):
+
+Executes backend code (e.g. Django, Flask, PHP)
+
+Handles business logic
+
+Communicates with the database to process dynamic data
+
+ What is the role of the database (MySQL)?
+The database:
+
+Stores persistent data (e.g. user accounts, blog posts)
+
+Provides structured access to data via SQL queries
+
+Responds to read/write requests from the application server
+
+ What is the server using to communicate with the user’s computer?
+The server communicates with the user's computer via the HTTP or HTTPS protocol over the internet (TCP/IP networking).
+
+ Problems with this Infrastructure
+❗ SPOF (Single Point of Failure)
+Only one server: if it crashes or is attacked, the whole website goes down.
+
+❗ Downtime during maintenance
+If you restart the web or app server to deploy updates, users will experience downtime.
+
+❗ Cannot scale under high traffic
+If traffic increases (many users at once), this single server cannot handle the load.
+
+You cannot horizontally scale (add more servers) with this setup.
+
+(./DNS3.png)
+
