@@ -1,0 +1,62 @@
+Web Infrastructure for www.foobar.com
+This design features a three-server web infrastructure secured with firewalls, SSL encryption, and monitored using a third-party service like Sumo Logic.
+
+🔐 Key Elements Explained
+1. Firewalls (3)
+Firewall 1 (Edge): Protects the public-facing load balancer from external attacks.
+
+Firewall 2 (Web tier): Shields each web/app server.
+
+Firewall 3 (DB tier): Restricts access to the database only from the application servers.
+
+🔎 Why Firewalls?
+They control access between layers of your infrastructure, reduce the attack surface, and enforce network segmentation.
+
+2. SSL Certificate
+Installed on the Load Balancer.
+
+Ensures HTTPS (encrypted traffic) between clients and the website.
+
+🔎 Why HTTPS?
+It encrypts communication between users and www.foobar.com, protecting against MITM (Man-in-the-middle) attacks and eavesdropping.
+
+3. Monitoring Clients (3)
+Installed on each Web/App server.
+
+Send logs, metrics, and events to a central monitoring service like Sumo Logic, Datadog, or Prometheus.
+
+🔎 Why Monitoring?
+It enables observability — helps detect performance issues, outages, or abnormal behavior.
+
+🔎 How it collects data?
+Agents (monitoring clients) collect logs (e.g., access.log, error.log) and metrics (e.g., CPU, memory usage) and send them to a collector/dashboard.
+
+❓ To monitor web server QPS (Queries Per Second):
+
+Use metrics from the web server (e.g., Nginx/Apache).
+
+Configure the monitoring client to parse logs or use status endpoints (/status, stub_status) for real-time QPS tracking.
+
+⚠️ Issues with this Infrastructure
+🔴 SSL Termination at Load Balancer
+After SSL is terminated at the load balancer, traffic between the load balancer and web servers is unencrypted.
+
+❗ Issue: Internal traffic can still be intercepted if not secured (consider end-to-end SSL or private network segmentation).
+
+🔴 One MySQL Server Accepting Writes
+Only one point of write can become a bottleneck or single point of failure.
+
+❗ Issue: If the DB goes down, no writes can happen. Use replication + failover or clustering (e.g., Galera, Group Replication).
+
+🔴 All-in-One Servers (Web + App + Monitoring)
+Web server, app server, and monitor client are all on the same host.
+
+❗ Issue: Increases resource contention, reduces scalability, and makes isolation difficult (better to separate concerns for large systems).
+
+![Web Infrastructure Diagram](./DNS4.png)
+
+
+
+
+
+
