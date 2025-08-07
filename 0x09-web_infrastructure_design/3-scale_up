@@ -1,0 +1,126 @@
+README - Infrastructure Design
+🧠 Understanding: Application Server vs Web Server
+Web Server:
+
+Handles HTTP requests and responses.
+
+Serves static files (HTML, CSS, JS, images).
+
+Examples: Nginx, Apache.
+
+Application Server:
+
+Runs application logic (Python, Node.js, etc).
+
+Connects to databases, handles dynamic content.
+
+Examples: Gunicorn, uWSGI, Node.js runtime, Django/Flask app server.
+
+Together:
+
+A user makes a request → web server receives it → forwards dynamic requests to the app server → app server processes logic → returns response → web server sends it back to the user.
+
+✅ Requirements
+1. Add 1 Server
+Why: To expand capacity or add redundancy.
+
+🧱 Architecture Design
+
+                    - - - - - - - - - - - - - -
+                   |      Internet (Clients)     |
+                    - - - - - - - - - - - - - -
+                                 |
+                          [ Firewall ]
+                                 |
+                           [ DNS / HTTPS ]
+                                 |
+                       ---------------------
+                      |    Load Balancer    |  <- HAProxy Cluster (2 nodes)
+                       ---------------------
+                             /       \
+                            /         \
+               ----------------     ----------------
+              |   Web Server A  |   |   Web Server B  |
+               ----------------     ----------------
+                    |                     |
+               ----------------     ----------------
+              | App Server A   |   | App Server B   |
+               ----------------     ----------------
+                            \         /
+                             \       /
+                         ----------------
+                        |  MySQL Database |
+                         ----------------
+                              (Single write node)
+
+               Monitoring Agents (on each server)
+               --> Sending logs & metrics to Sumologic
+🔍 Component Breakdown
+- Load Balancer (HAProxy, 2-node cluster)
+Distributes incoming traffic to web servers.
+
+Increases availability.
+
+Cluster setup ensures high availability if one load balancer fails.
+
+- Web Servers (e.g., Nginx)
+Serve static content.
+
+Forward dynamic requests to application servers.
+
+Keep application servers decoupled from client interactions.
+
+- Application Servers
+Run business logic.
+
+Process dynamic content (e.g., user authentication, data fetching).
+
+- Database Server
+Stores persistent data.
+
+Current setup: single write node for simplicity.
+
+- Monitoring Clients
+Installed on all servers.
+
+Collect logs, metrics, performance data.
+
+Send data to services like Sumologic, Prometheus, etc.
+
+🔐 Firewalls
+Placed between:
+
+Internet ↔ Load Balancer
+
+Load Balancer ↔ Web Servers
+
+Web Servers ↔ App Servers
+
+Control traffic flow.
+
+Protect from malicious access.
+
+🌐 HTTPS / SSL Certificate
+Encrypts traffic between users and the infrastructure.
+
+Protects user credentials and sensitive data.
+
+Certificate installed at Load Balancer.
+
+📊 Monitoring
+Tracks CPU, memory, network, app performance.
+
+Helps in diagnosing problems before outages.
+
+Tools like grafana can visualize and alert on abnormal activity.
+
+💡 Why Each Element?
+Load Balancer (HA): Ensures traffic distribution and failover.
+
+Split Web/App/DB: Separation of concerns improves scalability and debugging.
+
+Monitoring: Enables proactive maintenance and issue detection.
+
+HTTPS: Ensures secure communication.
+
+Firewall: First line of defense against external threats.
