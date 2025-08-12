@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# This script connects to a server via SSH using the private key ~/.ssh/school and the user ubuntu
+
+# Path to private key
+KEY_PATH="$HOME/.ssh/school"
+
+# Server address (replace with actual IP or hostname)
+SERVER="ubuntu@<server-ip>"
+
+# Check if private key exists
+if [ ! -f "$KEY_PATH" ]; then
+  echo "Error: Private key not found at $KEY_PATH"
+  exit 1
+fi
+
+# Connect to the server using SSH with a single-character flag for identity
+ssh -i "$KEY_PATH" "$SERVER"
+
+
