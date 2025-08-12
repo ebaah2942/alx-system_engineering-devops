@@ -19,3 +19,9 @@ The script ensures that the private key exists before attempting to connect, avo
 1. Make the script executable:
    ```bash
    chmod +x 0-use_a_private_key
+-----------
+
+RSA Key Pair Creation Script
+Description
+This project contains a Bash script that creates a 4096-bit RSA key pair named school and protects it with the passphrase "betty".
+The script is designed to run on Ubuntu 20.04 LTS and adheres to project requirements for executable Bash scripts.
