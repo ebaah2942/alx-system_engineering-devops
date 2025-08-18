@@ -1,2 +1,3 @@
+#!/bin/bash
 dec_water=$((ibase=$water; WATER))
 dec_stir=$((ibase=$stir; STIR))
