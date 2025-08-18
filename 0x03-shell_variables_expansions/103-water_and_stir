@@ -1,10 +1,2 @@
-#!/bin/bash
 dec_water=$((ibase=$water; WATER))
 dec_stir=$((ibase=$stir; STIR))
-
-# Add the two decimal values
-# sum=$((dec_water + dec_stir))
-
-# Convert the sum to desired base and print
-# echo "obase=$bestchol; $sum" | bc
-
